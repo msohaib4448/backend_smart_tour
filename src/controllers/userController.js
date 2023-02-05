@@ -1,6 +1,6 @@
 const { pool } = require("../connection/postgresql");
 
-const alluser = (req, res) => {
+const showUsers = (req, res) => {
     let query = `SELECT * FROM users`;
     console.log(query);
     pool.query(query, (error, result) => {
@@ -11,5 +11,4 @@ const alluser = (req, res) => {
     })
 }
 
-
-module.exports = { alluser };
+module.exports = { showUsers };
