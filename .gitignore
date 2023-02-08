@@ -2,7 +2,7 @@
 node_modules
 .env
 package-lock
-index.js
+
 logs
 *.log
 npm-debug.log*

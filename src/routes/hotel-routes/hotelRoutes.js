@@ -1,10 +1,10 @@
 const express = require("express");
 const { showHotels, showHotel, addHotel, updateHotel, deleteHotel } = require("../../controllers/hotel-controllers/hotelControllers.js");
-const { auth } = require("../../middlewares/auth");
+const {Auth} = require('../../middleware/auth')
 const hotelRouter = express.Router();
-    hotelRouter.get("/showhotels", auth, showHotels);
-    hotelRouter.get("/showhotel/:id", auth, showHotel);
-    hotelRouter.post("/addhotel", auth, addHotel);
-    hotelRouter.put("/updatehotel", auth, updateHotel);
-    hotelRouter.delete("/deletehotel", auth, deleteHotel);
+    hotelRouter.get("/showhotels",  showHotels);
+    hotelRouter.get("/showhotel/:id",  showHotel);
+    hotelRouter.post("/addhotel",Auth,  addHotel);
+    hotelRouter.put("/updatehotel",  updateHotel);
+    hotelRouter.delete("/deletehotel",  deleteHotel);
 module.exports = hotelRouter;
