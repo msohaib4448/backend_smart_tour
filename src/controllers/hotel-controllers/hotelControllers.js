@@ -11,9 +11,6 @@ const showHotels = (req, res) => {
     })
 }
 
-
-
-
 const showHotel = (req, res) => {
     const { id } = req.params;
     let query = `SELECT * FROM hotels WHERE id='${id}'`;
@@ -27,9 +24,9 @@ const showHotel = (req, res) => {
     console.log(id);
 }
 
-
 const addHotel = (req, res) => {
     const { name, rating, location, description } = req.body;
+    console.log(req.body);
     console.log(name, rating, location, description);
     const query = `INSERT INTO hotels (name, rating, location, description) VALUES ('${name}', '${rating}', '${location}', '${description}') `;
     pool.query(query, (error, result) => {
