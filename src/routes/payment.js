@@ -1,12 +1,12 @@
 var express = require("express");
-const { auth } = require("../middlewares/auth");
+const { Auth } = require("../../src/middleware/auth");
 const {addPayment, showPayments, editPayment, deletePayment , postPaymentDetails} = require('../controllers/paymentControl')
 const paymentRouter = express.Router();
 
-    paymentRouter.get("/showpayments",auth, showPayments);
-    paymentRouter.post("/addpayment",auth, addPayment);
-    paymentRouter.put("/editpayment",auth, editPayment);
-    paymentRouter.delete("/deletepayment",auth, deletePayment);
+    paymentRouter.get("/showpayments",Auth, showPayments);
+    paymentRouter.post("/addpayment",Auth, addPayment);
+    paymentRouter.put("/editpayment",Auth, editPayment);
+    paymentRouter.delete("/deletepayment",Auth, deletePayment);
     paymentRouter.post("/verifypayment", postPaymentDetails);
 
 

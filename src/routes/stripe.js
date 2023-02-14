@@ -1,10 +1,10 @@
 var express = require("express");
-const { auth } = require("../middlewares/auth");
+const { Auth } = require("../../src/middleware/auth");
 const { checkoutSession, handleWebhook } = require("../../src/controllers/stripeController")
 const stripeRouter = express.Router();
 
 
-stripeRouter.post("/checkoutsession", auth, checkoutSession);
-stripeRouter.post("/webhook", auth, handleWebhook);
+stripeRouter.post("/checkoutsession",  checkoutSession);
+stripeRouter.post("/webhook",  handleWebhook);
 
 module.exports = stripeRouter;
