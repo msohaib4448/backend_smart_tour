@@ -1,10 +1,10 @@
 const express = require("express");
 const { showRooms, showRoom, addRoom, updateRoom, deleteRoom } = require("../../controllers/room-controllers/room-controllers.js");
-const { auth } = require("../../middlewares/auth");
+const {Auth} = require('../../middleware/auth')
 const roomRouter = express.Router();
-    roomRouter.get("/showrooms", auth, showRooms);
-    roomRouter.get("/showroom/:id", auth, showRoom);
-    roomRouter.post("/addroom", auth, addRoom);
-    roomRouter.put("/updateroom", auth, updateRoom);
-    roomRouter.delete("/deleteroom", auth, deleteRoom);
+    roomRouter.get("/showrooms",  showRooms);
+    roomRouter.get("/showroom/:id",  showRoom);
+    roomRouter.post("/addroom",Auth,  addRoom);
+    roomRouter.put("/updateroom",  updateRoom);
+    roomRouter.delete("/deleteroom", deleteRoom);
 module.exports = roomRouter;
