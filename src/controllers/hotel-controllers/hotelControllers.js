@@ -1,12 +1,17 @@
 const { pool } = require("../../connection/postgresql");
 
 const showHotels = (req, res) => {
-    let query = `SELECT * FROM hotels`;
+    let query = `SELECT * 
+    FROM hotels 
+    JOIN rooms ON hotels.id = rooms.id`;
+    // let query = `SELECT * 
+    // FROM hotels`;
     console.log(query);
     pool.query(query, (error, result) => {
         if (error) {
             throw error
         }
+        console.log("result.rows",result.rows)
         res.status(200).json(result.rows);
     })
 }
@@ -25,10 +30,10 @@ const showHotel = (req, res) => {
 }
 
 const addHotel = (req, res) => {
-    const { name, rating, location, description } = req.body;
-    console.log(req.body);
-    console.log(name, rating, location, description);
-    const query = `INSERT INTO hotels (name, rating, location, description) VALUES ('${name}', '${rating}', '${location}', '${description}') `;
+    const { name, rating, location, hotel_description } = req.body;
+    console.log(req);
+    console.log(name, rating, location, hotel_description);
+    const query = `INSERT INTO hotels (name, rating, location, hotel_description) VALUES ('${name}', '${rating}', '${location}', '${hotel_description}') `;
     pool.query(query, (error, result) => {
         console.log(query);
         if (error) {
@@ -39,9 +44,9 @@ const addHotel = (req, res) => {
 }
 
 const updateHotel = (req, res) => {
-    const { id, name, rating, location, description } = req.body;
-    console.log(id, name, rating, location, description);
-    const query = `UPDATE hotels SET (name, rating, location, description) = ('${name}', '${rating}', '${location}', '${description}') WHERE id = '${id}'`;
+    const { id, name, rating, location, hotel_description } = req.body;
+    console.log(id, name, rating, location, hotel_description);
+    const query = `UPDATE hotels SET (name, rating, location, hotel_description) = ('${name}', '${rating}', '${location}', '${hotel_description}') WHERE id = '${id}'`;
     pool.query(query, (error, result) => {
         console.log(query);
         if (error) {
@@ -52,9 +57,11 @@ const updateHotel = (req, res) => {
 }
 
 const deleteHotel = (req, res) => {
-    const { id } = req.body;
+    // const { id, msg } = req;
+    const { id } = req.params;
     console.log(id);
-    const query = `DELETE FROM hotels WHERE id = '${id}'`;
+    // console.log(id);
+    const query = `DELETE FROM hotels WHERE id = ${id}`;
     pool.query(query, (error, result) => {
         console.log(query);
         if (error) {
@@ -64,4 +71,4 @@ const deleteHotel = (req, res) => {
     })
 }
 
-module.exports = { showHotels, showHotel, addHotel, updateHotel, deleteHotel};
+module.exports = { showHotels, showHotel, addHotel, updateHotel, deleteHotel };
