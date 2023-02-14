@@ -25,9 +25,9 @@ const showRoom = (req, res) => {
 }
 
 const addRoom = (req, res) => {
-    const { room_number, hotel_id, category_id, description, price } = req.body;
-    console.log(room_number, hotel_id, category_id, description, price);
-    const query = `INSERT INTO rooms (room_number, hotel_id, category_id, description, price ) VALUES ('${room_number}', '${hotel_id}', '${category_id}', '${description}', '${price}') `;
+    const { room_number, hotel_id, category_id, room_description, price } = req.body;
+    console.log(room_number, hotel_id, category_id, room_description, price);
+    const query = `INSERT INTO rooms (room_number, hotel_id, category_id, room_description, price ) VALUES ('${room_number}', '${hotel_id}', '${category_id}', '${room_description}', '${price}') `;
     pool.query(query, (error, result) => {
         console.log(query);
         if (error) {
@@ -38,9 +38,9 @@ const addRoom = (req, res) => {
 }
 
 const updateRoom = (req, res) => {
-    const { id, room_number, hotel_id, category_id, description, price } = req.body;
-    console.log(id, room_number, hotel_id, category_id, description, price);
-    const query = `UPDATE rooms SET (room_number, hotel_id, category_id, description, price) = ('${room_number}', '${hotel_id}', '${category_id}', '${description}', '${price}') WHERE id = '${id}'`;
+    const { id, room_number, hotel_id, category_id, room_description, price } = req.body;
+    console.log(id, room_number, hotel_id, category_id, room_description, price);
+    const query = `UPDATE rooms SET (room_number, hotel_id, category_id, room_description, price) = ('${room_number}', '${hotel_id}', '${category_id}', '${room_description}', '${price}') WHERE id = '${id}'`;
     pool.query(query, (error, result) => {
         console.log(query);
         if (error) {

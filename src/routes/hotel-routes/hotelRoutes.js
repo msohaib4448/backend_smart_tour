@@ -6,5 +6,5 @@ const hotelRouter = express.Router();
     hotelRouter.get("/showhotel/:id", auth, showHotel);
     hotelRouter.post("/addhotel", auth, addHotel);
     hotelRouter.put("/updatehotel", auth, updateHotel);
-    hotelRouter.delete("/deletehotel", auth, deleteHotel);
+    hotelRouter.delete("/deletehotel/:id",  deleteHotel);
 module.exports = hotelRouter;
