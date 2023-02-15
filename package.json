@@ -7,7 +7,8 @@
     "jsonwebtoken": "^9.0.0",
     "node": "^18.13.0",
     "nodemon": "^2.0.20",
-    "pg": "^8.9.0"
+    "pg": "^8.9.0",
+    "stripe": "^11.9.1"
   },
   "name": "backend_smart_tour",
   "description": "",

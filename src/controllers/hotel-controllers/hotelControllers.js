@@ -1,12 +1,30 @@
 const { pool } = require("../../connection/postgresql");
 
 const showHotels = (req, res) => {
-    let query = `SELECT * FROM hotels`;
+    let query = `SELECT * 
+    FROM hotels 
+    JOIN rooms ON hotels.id = rooms.id`;
+    // let query = `SELECT * 
+    // FROM hotels`;
     console.log(query);
     pool.query(query, (error, result) => {
         if (error) {
             throw error
         }
+        console.log("result.rows",result.rows)
+        res.status(200).json(result.rows);
+    })
+}
+
+
+const showAllHotels = (req, res) => {
+    let query = "SELECT * FROM hotels" ;
+    console.log(query);
+    pool.query(query, (error, result) => {
+        if (error) {
+            throw error
+        }
+        console.log("result.rows",result.rows)
         res.status(200).json(result.rows);
     })
 }
@@ -25,43 +43,43 @@ const showHotel = (req, res) => {
 }
 
 const addHotel = (req, res) => {
-    const { name, rating, location, description } = req.body;
-    console.log(req.body);
-    console.log(name, rating, location, description);
-    const query = `INSERT INTO hotels (name, rating, location, description) VALUES ('${name}', '${rating}', '${location}', '${description}') `;
+    const { name, rating, location, hotel_description, hotel_image } = req.body;
+    console.log(req);
+    console.log(name, rating, location, hotel_description, hotel_image);
+    const query = `INSERT INTO hotels (name, rating, location, hotel_description, hotel_image) VALUES ('${name}', '${rating}', '${location}', '${hotel_description}', '${hotel_image}') `;
     pool.query(query, (error, result) => {
         console.log(query);
         if (error) {
-            throw error
+            res.status(500).json(error.message)
         }
-        res.status(200).json(req.body)
+        res.status(200).json({success_message: "Hotel ADDED", body: req.body})
     })
 }
 
 const updateHotel = (req, res) => {
-    const { id, name, rating, location, description } = req.body;
-    console.log(id, name, rating, location, description);
-    const query = `UPDATE hotels SET (name, rating, location, description) = ('${name}', '${rating}', '${location}', '${description}') WHERE id = '${id}'`;
+    const { id, name, rating, location, hotel_description, hotel_image } = req.body;
+    console.log(id, name, rating, location, hotel_description, hotel_image);
+    const query = `UPDATE hotels SET (name, rating, location, hotel_description, hotel_image) = ('${name}', '${rating}', '${location}', '${hotel_description}', '${hotel_image}') WHERE id = '${id}'`;
     pool.query(query, (error, result) => {
         console.log(query);
         if (error) {
             throw error
         }
-        res.status(200).json(req.body)
+        res.status(200).json({success_message: "Hotel UPDATED", body: req.body})
     })
 }
 
 const deleteHotel = (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     console.log(id);
-    const query = `DELETE FROM hotels WHERE id = '${id}'`;
+    const query = `DELETE FROM hotels WHERE id = ${id}`;
     pool.query(query, (error, result) => {
         console.log(query);
         if (error) {
             throw error
         }
-        res.status(200).json(req.body)
+        res.status(200).json(`Hotel with ID: ${id} DELETED`)
     })
 }
 
-module.exports = { showHotels, showHotel, addHotel, updateHotel, deleteHotel};
+module.exports = { showHotels, showAllHotels, showHotel, addHotel, updateHotel, deleteHotel };
