@@ -2,8 +2,6 @@ const { pool } = require('../../connection/postgresql');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
-const cookie = require('cookie');
-const nodemailer = require('nodemailer');
 require('dotenv').config();
 const config = require('../../config/config');
 
@@ -51,12 +49,9 @@ const loginUser =  (req, res) => {
         //     });
         //   }
         const accessToken = jwt.sign({email,password}, ACCESS_TOKEN_SECRET);
-        res.setHeader('Set-Cookie', cookie.serialize('jwt', accessToken, {
-            httpOnly: true,
-            maxAge: 60 * 60 * 24 // 24 hours in seconds
-          }));
+        
         res.status(200).json({ accessToken ,message:'Login successfull'})
-            
+              
         });
       }
     });
