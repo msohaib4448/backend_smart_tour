@@ -25,33 +25,33 @@ const showRoom = (req, res) => {
 }
 
 const addRoom = (req, res) => {
-    const { room_number, hotel_id, category_id, room_description, price } = req.body;
-    console.log(room_number, hotel_id, category_id, room_description, price);
-    const query = `INSERT INTO rooms (room_number, hotel_id, category_id, room_description, price ) VALUES ('${room_number}', '${hotel_id}', '${category_id}', '${room_description}', '${price}') `;
+    const { hotel_id, room_description, price, room_images } = req.body;
+    console.log( hotel_id, room_description, price, room_images);
+    const query = `INSERT INTO rooms (hotel_id, room_description, price, room_images ) VALUES ('${hotel_id}', '${room_description}', '${price}', '${room_images}') `;
     pool.query(query, (error, result) => {
         console.log(query);
         if (error) {
             throw error
         }
-        res.status(200).json(req.body)
+        res.status(200).json({success_message: "Room ADDED", body: req.body})
     })
 }
 
 const updateRoom = (req, res) => {
-    const { id, room_number, hotel_id, category_id, room_description, price } = req.body;
-    console.log(id, room_number, hotel_id, category_id, room_description, price);
-    const query = `UPDATE rooms SET (room_number, hotel_id, category_id, room_description, price) = ('${room_number}', '${hotel_id}', '${category_id}', '${room_description}', '${price}') WHERE id = '${id}'`;
+    const { id, hotel_id, room_description, price, room_images } = req.body;
+    console.log(id, hotel_id, room_description, price, room_images);
+    const query = `UPDATE rooms SET (hotel_id, room_description, price, room_images ) = ('${hotel_id}', '${room_description}', '${price}', '${room_images}') WHERE id = '${id}'`;
     pool.query(query, (error, result) => {
         console.log(query);
         if (error) {
             throw error
         }
-        res.status(200).json(req.body)
+        res.status(200).json({success_message: "Room UPDATED", body: req.body})
     })
 }
 
 const deleteRoom = (req, res) => {
-    const { id } = req.body;
+    const { id } = req.params;
     console.log(id);
     const query = `DELETE FROM rooms WHERE id = '${id}'`;
     pool.query(query, (error, result) => {
@@ -59,7 +59,7 @@ const deleteRoom = (req, res) => {
         if (error) {
             throw error
         }
-        res.status(200).json(req.body)
+        res.status(200).json(`Hotel with ID: ${id} DELETED`);
     })
 }
 
