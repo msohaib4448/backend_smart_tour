@@ -18,7 +18,7 @@ const checkoutSession = async (req, res) => {
                 price_data: {
                     currency: "pkr",
                     product_data: {
-                        name: `${name}, ${location}`,
+                        name: `${name}`,
                         description: `${rooms_booked} rooms booked from ${booking_from} to ${booking_to}`
                     },
                     unit_amount: order_total * 100,
