@@ -2,8 +2,11 @@ const { pool } = require('../../connection/postgresql');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
+const cookie = require('cookie');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
-const config = require('../../config/config')
+const config = require('../../config/config');
+
 const {ACCESS_TOKEN_SECRET} = config
 
 
@@ -18,19 +21,77 @@ const getUser = async(req, res) => {
 } 
 
 
+const loginUser =  (req, res) => {
+    const { email, password } = req.body;
+  
+    const query = {
+      text: 'SELECT * FROM users WHERE email = $1 and password = $2',
+      values: [email,password]
+    }
+  
+    pool.query(query, (err, result) => {
+      if (err) {
+        console.log(err.stack)
+      } else {
+        const user = result.rows[0];
+        if (!user) {
+          return res.status(401).json({
+            message: 'User Not Found'
+          });
+        }
+        console.log('pass',password)
+        console.log('passus',user.password)
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+          if (err) {
+            console.log(err);
+          }
+        //   if (!isMatch) {
+        //     return res.status(401).json({
+        //       message: 'Incorrect Password'
+        //     });
+        //   }
+        const accessToken = jwt.sign({email,password}, ACCESS_TOKEN_SECRET);
+        res.setHeader('Set-Cookie', cookie.serialize('jwt', accessToken, {
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 // 24 hours in seconds
+          }));
+        res.status(200).json({ accessToken ,message:'Login successfull'})
+            
+        });
+      }
+    });
+       
+}
+
+
+
+  
+  
+  
+  
+  
+
+
+  
+    
+  
+
+
 const createUser = async(req,res)=>{
+  
+  console.log(req.body)
     const {username,contact_no,email,password} = req.body;
+
+
     try{
-        // const hashPassword = bcrypt.hash(password,10);
+        
      const query = await `INSERT INTO users (username, contact_no,email,password) VALUES ('${username}', '${contact_no}', '${email}', '${password}') `;
      pool.query(query, (error, result) => {
          console.log(result);
          if (error) {
-             throw error
-         }  
-              
-
-         const accessToken = jwt.sign({username,contact_no,email,password}, ACCESS_TOKEN_SECRET);
+             res.status(500).json("server error")           
+         }    
+         const accessToken = jwt.sign(req.body, ACCESS_TOKEN_SECRET);
          res.status(200).json({ accessToken }); 
         //  res.status(200).json(result.rows[0])
      })
@@ -68,4 +129,11 @@ const deleteUser = async(req, res) => {
 
 
 
-module.exports = { getUser,createUser,updateUser,deleteUser };
+  
+   
+
+  
+
+
+
+module.exports = { getUser,createUser,updateUser,deleteUser,loginUser };
